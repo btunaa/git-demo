@@ -1,4 +1,5 @@
 class UsersModelSupport {
+  //api'den gelen verilerdeki destek bilgileri
   String? url;
   String? text;
 
@@ -18,6 +19,7 @@ class UsersModelSupport {
 }
 
 class UsersModelData {
+  // kullanicilarin ana bilgileri
   int? id;
   String? email;
   String? firstName;
@@ -52,6 +54,7 @@ class UsersModelData {
 }
 
 class UsersModel {
+  // api'den gelen kullanici verilerinin ana bilgilerini temsil eder
   int? page;
   int? perPage;
   int? total;
