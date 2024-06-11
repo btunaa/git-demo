@@ -45,9 +45,12 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(user.avatar ?? ''),
-                      radius: 50,
+                    child: Hero(
+                      tag: 'avatar_${user.id}',
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(user.avatar ?? ''),
+                        radius: 50,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 16),

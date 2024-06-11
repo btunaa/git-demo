@@ -58,8 +58,11 @@ class _MyAppState extends State<MyApp> {
                         title: Text(
                             "${user.firstName ?? ''} ${user.lastName ?? ''}"),
                         subtitle: Text(user.email ?? ''),
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(user.avatar ?? ''),
+                        leading: Hero(
+                          tag: 'avatar_${user.id}',
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(user.avatar ?? ''),
+                          ),
                         ),
                         onTap: () {
                           Navigator.push(
