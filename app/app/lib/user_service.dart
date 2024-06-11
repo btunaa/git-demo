@@ -3,15 +3,28 @@ import 'package:app/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class UserService {
-  final String url = "https://reqres.in/api/users?page=2";
+  final String baseUrl = "https://reqres.in/api";
+
   Future<UsersModel?> fetchUsers() async {
-    var res = await http.get(Uri.parse(url));
+    final url = "$baseUrl/users?page=2";
+    final res = await http.get(Uri.parse(url));
     if (res.statusCode == 200) {
-      var jsonBody = UsersModel.fromJson(jsonDecode(res.body));
-      return jsonBody;
+      return UsersModel.fromJson(jsonDecode(res.body));
     } else {
-      print("istek basarisiz oldu => ${res.statusCode}");
+      print("Request failed with status: ${res.statusCode}");
+      return null;
     }
-    return null;
+  }
+
+  Future<UsersModelData?> fetchUser(int userId) async {
+    final url = "$baseUrl/users/$userId";
+    final res = await http.get(Uri.parse(url));
+    if (res.statusCode == 200) {
+      final jsonBody = jsonDecode(res.body);
+      return UsersModelData.fromJson(jsonBody['data']);
+    } else {
+      print("Request failed with status: ${res.statusCode}");
+      return null;
+    }
   }
 }

@@ -1,8 +1,7 @@
-// ignore_for_file: prefer_final_fields, unnecessary_string_interpolations
-
 import 'package:flutter/material.dart';
 import 'package:app/user_model.dart';
 import 'package:app/user_service.dart';
+import 'package:app/user_detail_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -14,26 +13,28 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  UserService _service = UserService();
-  bool? isLoading;
-
-  List<UsersModelData?> users = [];
+  final UserService _service = UserService();
+  bool isLoading = true;
+  List<UsersModelData> users = [];
 
   @override
   void initState() {
     super.initState();
-    _service.fetchUsers().then((value) {
-      if (value != null && value.data != null) {
-        setState(() {
-          users = value.data!;
-          isLoading = true;
-        });
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-      }
-    });
+    _fetchUsers();
+  }
+
+  Future<void> _fetchUsers() async {
+    final fetchedUsers = await _service.fetchUsers();
+    if (fetchedUsers != null && fetchedUsers.data != null) {
+      setState(() {
+        users = fetchedUsers.data!;
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -44,21 +45,31 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Material App Bar'),
         ),
-        body: isLoading == null
+        body: isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : isLoading == true
+            : users.isNotEmpty
                 ? ListView.builder(
                     itemCount: users.length,
                     itemBuilder: (context, index) {
+                      final user = users[index];
                       return ListTile(
                         title: Text(
-                            "${users[index]!.firstName! + users[index]!.lastName!}"),
-                        subtitle: Text(users[index]!.email!),
+                            "${user.firstName ?? ''} ${user.lastName ?? ''}"),
+                        subtitle: Text(user.email ?? ''),
                         leading: CircleAvatar(
-                          backgroundImage: NetworkImage(users[index]!.avatar!),
+                          backgroundImage: NetworkImage(user.avatar ?? ''),
                         ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  UserDetailScreen(userId: user.id!),
+                            ),
+                          );
+                        },
                       );
                     },
                   )

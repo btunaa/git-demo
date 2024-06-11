@@ -2,19 +2,18 @@ class UsersModelSupport {
   String? url;
   String? text;
 
-  UsersModelSupport({
-    this.url,
-    this.text,
-  });
+  UsersModelSupport({this.url, this.text});
+
   UsersModelSupport.fromJson(Map<String, dynamic> json) {
     url = json['url']?.toString();
     text = json['text']?.toString();
   }
+
   Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['url'] = url;
-    data['text'] = text;
-    return data;
+    return {
+      'url': url,
+      'text': text,
+    };
   }
 }
 
@@ -32,6 +31,7 @@ class UsersModelData {
     this.lastName,
     this.avatar,
   });
+
   UsersModelData.fromJson(Map<String, dynamic> json) {
     id = json['id']?.toInt();
     email = json['email']?.toString();
@@ -39,14 +39,15 @@ class UsersModelData {
     lastName = json['last_name']?.toString();
     avatar = json['avatar']?.toString();
   }
+
   Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['id'] = id;
-    data['email'] = email;
-    data['first_name'] = firstName;
-    data['last_name'] = lastName;
-    data['avatar'] = avatar;
-    return data;
+    return {
+      'id': id,
+      'email': email,
+      'first_name': firstName,
+      'last_name': lastName,
+      'avatar': avatar,
+    };
   }
 }
 
@@ -55,7 +56,7 @@ class UsersModel {
   int? perPage;
   int? total;
   int? totalPages;
-  List<UsersModelData?>? data;
+  List<UsersModelData>? data;
   UsersModelSupport? support;
 
   UsersModel({
@@ -66,40 +67,35 @@ class UsersModel {
     this.data,
     this.support,
   });
+
   UsersModel.fromJson(Map<String, dynamic> json) {
     page = json['page']?.toInt();
     perPage = json['per_page']?.toInt();
     total = json['total']?.toInt();
     totalPages = json['total_pages']?.toInt();
     if (json['data'] != null) {
-      final v = json['data'];
-      final arr0 = <UsersModelData>[];
-      v.forEach((v) {
-        arr0.add(UsersModelData.fromJson(v));
-      });
-      data = arr0;
+      data = (json['data'] as List)
+          .map((v) => UsersModelData.fromJson(v))
+          .toList();
     }
-    support = (json['support'] != null)
+    support = json['support'] != null
         ? UsersModelSupport.fromJson(json['support'])
         : null;
   }
+
   Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['page'] = page;
-    data['per_page'] = perPage;
-    data['total'] = total;
-    data['total_pages'] = totalPages;
-    if (this.data != null) {
-      final v = this.data;
-      final arr0 = [];
-      for (var v in v!) {
-        arr0.add(v!.toJson());
-      }
-      data['data'] = arr0;
+    final dataMap = <String, dynamic>{
+      'page': page,
+      'per_page': perPage,
+      'total': total,
+      'total_pages': totalPages,
+    };
+    if (data != null) {
+      dataMap['data'] = data!.map((v) => v.toJson()).toList();
     }
     if (support != null) {
-      data['support'] = support!.toJson();
+      dataMap['support'] = support!.toJson();
     }
-    return data;
+    return dataMap;
   }
 }
