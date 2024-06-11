@@ -11,7 +11,6 @@ class UserService {
     if (res.statusCode == 200) {
       return UsersModel.fromJson(jsonDecode(res.body));
     } else {
-      print("Request failed with status: ${res.statusCode}");
       return null;
     }
   }
@@ -23,7 +22,6 @@ class UserService {
       final jsonBody = jsonDecode(res.body);
       return UsersModelData.fromJson(jsonBody['data']);
     } else {
-      print("Request failed with status: ${res.statusCode}");
       return null;
     }
   }

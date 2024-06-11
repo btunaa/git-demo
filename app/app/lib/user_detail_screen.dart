@@ -1,4 +1,3 @@
-// user_detail_screen.dart
 import 'package:flutter/material.dart';
 import 'package:app/user_model.dart';
 import 'package:app/user_service.dart';
@@ -43,19 +42,43 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(user.avatar ?? ''),
-                    radius: 50,
+                  Center(
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(user.avatar ?? ''),
+                      radius: 50,
+                    ),
                   ),
                   const SizedBox(height: 16),
-                  Text('${user.firstName ?? ''} ${user.lastName ?? ''}',
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  Center(
+                    child:
+                        Text('${user.firstName ?? ''} ${user.lastName ?? ''}',
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            )),
+                  ),
                   const SizedBox(height: 8),
-                  Text(user.email ?? '', style: const TextStyle(fontSize: 16)),
+                  Center(
+                    child: Text(user.email ?? '',
+                        style: const TextStyle(fontSize: 16)),
+                  ),
+                  const SizedBox(height: 16),
+                  Text('ID: ${user.id ?? ''}',
+                      style: const TextStyle(fontSize: 16)),
+                  const SizedBox(height: 8),
+                  Text('First Name: ${user.firstName ?? ''}',
+                      style: const TextStyle(fontSize: 16)),
+                  const SizedBox(height: 8),
+                  Text('Last Name: ${user.lastName ?? ''}',
+                      style: const TextStyle(fontSize: 16)),
+                  const SizedBox(height: 8),
+                  Text('Email: ${user.email ?? ''}',
+                      style: const TextStyle(fontSize: 16)),
+                  const SizedBox(height: 8),
+                  Text('Avatar: ${user.avatar ?? ''}',
+                      style: const TextStyle(fontSize: 16)),
                 ],
               ),
             );
